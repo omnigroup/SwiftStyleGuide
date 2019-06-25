@@ -277,9 +277,7 @@ public typealias Generator = Iterator
 func addTask(named name: String, at index: Int) -> OFMTask
 ```
 
-When a type is be bridged using an `@objc` attribute, make sure its bridged name
-is appropriate for our [Objective-C style](/coding-style-guidelines). (This
-includes adding prefixes for bridged types in frameworks.)
+When a type is be bridged using an `@objc` attribute, make sure its bridged name is appropriate for our [Objective-C style](/coding-style-guidelines). (This includes adding prefixes for bridged types in frameworks.)
 
 ### Number literals
 
@@ -1661,8 +1659,7 @@ When the default access modifier is what you want, just omit it.
 
 #### Leading with Access
 
-Access control must come before `let` and `var`. 
-For consistency and scan-ability, place it before `static` and `class` declarations as well. 
+Access control must come before `let` and `var`. For consistency and scan-ability, always place it before any other keyword in the same declaration, such as `static`, `class`, or `override`. The sole exception is attributes (prefixed with an `@` symbol), which — as described above — always come first, and often get their own line before the declaration itself.
 
 ```swift
 fileprivate let y = 20 // compiles
@@ -1674,6 +1671,24 @@ open class MyClass { // (class open also won't compile)
 	
 	private static func baz() {} // yes
 	static private func qux() {} // no, even though it compiles
+}
+
+@objc(MyObject) // yes: attributes on their own line
+public class Object: NSObject {
+
+    // yes: access control always comes before other keywords
+    public override init() { 
+        super.init()
+        // …
+    }
+
+    // yes: @-attributes, then access control, then other keywords
+    @objc public class var label: String {
+        get {
+            return "foo"
+        }
+    }
+
 }
 ```
 
